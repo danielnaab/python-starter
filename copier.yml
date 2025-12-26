@@ -29,6 +29,8 @@ _exclude:
   - build
   - .DS_Store
   - docs/copier  # Template documentation not for generated projects
+  - "{% if not include_github_actions %}.github{% endif %}"
+  - "{% if not include_dev_scripts %}scripts{% endif %}"
 
 # Files users will modify - protect during updates
 _skip_if_exists:

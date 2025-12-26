@@ -1,0 +1,15 @@
+"""Adapter layer - implementations of protocol interfaces.
+
+Adapters implement external system integrations (databases, APIs, file systems, etc.)
+All adapters implement protocols from the protocols layer.
+"""
+
+{% if include_example_code -%}
+from {{ package_name }}.adapters.repository import InMemoryRepository
+
+__all__ = [
+    "InMemoryRepository",
+]
+{% else -%}
+__all__: list[str] = []
+{% endif -%}

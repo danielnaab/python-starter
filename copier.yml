@@ -1,0 +1,157 @@
+# Copier template configuration for Python Starter Template
+# This file defines template variables and generation settings
+
+_min_copier_version: "9.0.0"
+
+# Answers file configuration
+_answers_file: .copier-answers.yml
+
+# Template file extension
+_templates_suffix: .jinja
+
+# Files to exclude from template
+_exclude:
+  - copier.yml
+  - .git
+  - .github
+  - .venv
+  - __pycache__
+  - "*.pyc"
+  - "*.pyo"
+  - "*.pyd"
+  - .pytest_cache
+  - htmlcov
+  - .coverage
+  - .ruff_cache
+  - uv.lock
+  - "*.egg-info"
+  - dist
+  - build
+  - .DS_Store
+  - docs/copier  # Template documentation not for generated projects
+
+# Files users will modify - protect during updates
+_skip_if_exists:
+  - src/{{ package_name }}/domain/entities.py
+  - src/{{ package_name }}/domain/value_objects.py
+  - src/{{ package_name }}/services/example_service.py
+  - src/{{ package_name }}/adapters/repository.py
+  - src/{{ package_name }}/cli/commands/example.py
+  - tests/unit/*.py
+  - tests/integration/*.py
+  - README.md  # Users will customize
+
+# Template questions (user prompts)
+
+project_name:
+  type: str
+  help: Project name (human-readable)
+  default: My Python Project
+  validator: "{% if not project_name %}Project name cannot be empty{% endif %}"
+
+project_description:
+  type: str
+  help: Short project description
+  default: A Python project built with modern best practices
+
+package_name:
+  type: str
+  help: Python package name (snake_case)
+  default: "{{ project_name.lower().replace(' ', '_').replace('-', '_') }}"
+  validator: >-
+    {% if not package_name.isidentifier() %}
+    Package name must be a valid Python identifier (snake_case, no hyphens)
+    {% elif package_name.startswith('_') %}
+    Package name cannot start with underscore
+    {% elif package_name in ['test', 'tests', 'src', 'lib'] %}
+    Reserved package name
+    {% endif %}
+
+author_name:
+  type: str
+  help: Author name
+  default: Your Name
+
+author_email:
+  type: str
+  help: Author email
+  default: you@example.com
+  validator: >-
+    {% if '@' not in author_email %}
+    Must be a valid email address
+    {% endif %}
+
+python_version:
+  type: str
+  help: Minimum Python version
+  default: "3.11"
+  choices:
+    - "3.10"
+    - "3.11"
+    - "3.12"
+
+include_example_code:
+  type: bool
+  help: Include example domain code and tests?
+  default: true
+
+include_github_actions:
+  type: bool
+  help: Include GitHub Actions CI/CD workflows?
+  default: true
+
+include_dev_scripts:
+  type: bool
+  help: Include development scripts (setup.sh, test.sh)?
+  default: true
+
+license:
+  type: str
+  help: Project license
+  default: MIT
+  choices:
+    - MIT
+    - Apache-2.0
+    - BSD-3-Clause
+    - GPL-3.0
+    - Proprietary
+
+# Computed variables (not shown to user)
+cli_command:
+  type: str
+  default: "{{ package_name }}-cli"
+  when: false
+
+module_path:
+  type: str
+  default: "{{ package_name }}.cli.main"
+  when: false
+
+current_year:
+  type: str
+  default: "{% now 'utc', '%Y' %}"
+  when: false
+
+# Post-generation tasks
+_tasks:
+  # Install dependencies
+  - command: uv sync
+    when: "{{ _copier_operation == 'copy' }}"
+
+  # Initialize git if not exists
+  - command: git init
+    when: "{{ _copier_operation == 'copy' }}"
+
+  - command: git add .
+    when: "{{ _copier_operation == 'copy' }}"
+
+  - command: 'git commit -m "Initial commit from Python Starter Template"'
+    when: "{{ _copier_operation == 'copy' }}"
+
+# Migrations for template updates (version-aware)
+_migrations:
+  - version: v0.2.0
+    before:
+      - echo "Preparing for v0.2.0 migration..."
+    after:
+      - echo "Completed v0.2.0 migration"

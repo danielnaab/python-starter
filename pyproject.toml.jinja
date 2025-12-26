@@ -1,12 +1,14 @@
 [project]
-name = "python-starter"
+name = "{{ package_name }}"
 version = "0.1.0"
-description = "A domain-agnostic Python starter template with functional service layer"
+description = "{{ project_description }}"
 readme = "README.md"
-requires-python = ">=3.11"
-license = {text = "MIT"}
+requires-python = ">={{ python_version }}"
+{% if license != "Proprietary" -%}
+license = {text = "{{ license }}"}
+{% endif -%}
 authors = [
-    {name = "Template Team", email = "team@example.com"}
+    {name = "{{ author_name }}", email = "{{ author_email }}"}
 ]
 keywords = ["template", "starter", "clean-architecture", "functional"]
 classifiers = [
@@ -29,7 +31,7 @@ dev = [
 ]
 
 [project.scripts]
-starter-cli = "starter.cli.main:app"
+{{ cli_command }} = "{{ module_path }}:app"
 
 [build-system]
 requires = ["hatchling"]
@@ -44,7 +46,7 @@ dev-dependencies = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py{{ python_version.replace('.', '') }}"
 
 [tool.ruff.lint]
 select = [
@@ -63,7 +65,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["starter"]
+known-first-party = ["{{ package_name }}"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -77,7 +79,7 @@ python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
     "--strict-config",
-    "--cov=starter",
+    "--cov={{ package_name }}",
     "--cov-report=term-missing",
     "--cov-report=html",
 ]

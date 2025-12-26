@@ -1,0 +1,94 @@
+"""Main CLI entry point.
+
+Builds production context and registers command groups.
+"""
+
+import typer
+
+{% if include_example_code -%}
+from {{ package_name }}.adapters.repository import InMemoryRepository
+from {{ package_name }}.domain.entities import Entity
+from {{ package_name }}.services.context import ServiceContext
+from {{ package_name }}.cli.commands import example
+
+app = typer.Typer(
+    name="{{ cli_command }}",
+    help="{{ project_description }}",
+    add_completion=False,
+)
+
+# Register command groups
+app.add_typer(example.app, name="example", help="Example commands")
+
+
+def get_context() -> ServiceContext:
+    """Build production service context.
+
+    Creates ServiceContext with real adapters.
+    Modify this to use production implementations (e.g., PostgresRepository).
+
+    Returns:
+        ServiceContext with production dependencies
+
+    Example:
+        For production, replace InMemoryRepository with real implementation:
+
+        return ServiceContext(
+            repository=PostgresRepository(
+                connection_string=os.getenv("DATABASE_URL")
+            )
+        )
+    """
+    return ServiceContext(
+        repository=InMemoryRepository[Entity](),
+    )
+
+
+@app.command()
+def version() -> None:
+    """Show version information."""
+    from {{ package_name }} import __version__
+
+    typer.echo(f"{{ project_name }} v{__version__}")
+
+
+if __name__ == "__main__":
+    app()
+{% else -%}
+from {{ package_name }}.services.context import ServiceContext
+
+app = typer.Typer(
+    name="{{ cli_command }}",
+    help="{{ project_description }}",
+    add_completion=False,
+)
+
+
+def get_context() -> ServiceContext:
+    """Build production service context.
+
+    Create ServiceContext with real adapters here.
+
+    Example:
+        from {{ package_name }}.adapters.repository import PostgresRepository
+
+        return ServiceContext(
+            user_repository=PostgresRepository(
+                connection_string=os.getenv("DATABASE_URL")
+            )
+        )
+    """
+    return ServiceContext()
+
+
+@app.command()
+def version() -> None:
+    """Show version information."""
+    from {{ package_name }} import __version__
+
+    typer.echo(f"{{ project_name }} v{__version__}")
+
+
+if __name__ == "__main__":
+    app()
+{% endif -%}

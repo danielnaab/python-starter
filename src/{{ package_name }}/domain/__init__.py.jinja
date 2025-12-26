@@ -1,0 +1,22 @@
+"""Domain layer - business entities and value objects.
+
+Contains core domain models with business logic.
+No dependencies on adapters or infrastructure.
+"""
+
+{% if include_example_code -%}
+from {{ package_name }}.domain.entities import Entity
+from {{ package_name }}.domain.exceptions import DomainError, EntityNotFoundError, ValidationError
+from {{ package_name }}.domain.value_objects import EntityName, EntityValue
+
+__all__ = [
+    "Entity",
+    "DomainError",
+    "ValidationError",
+    "EntityNotFoundError",
+    "EntityName",
+    "EntityValue",
+]
+{% else -%}
+__all__: list[str] = []
+{% endif -%}

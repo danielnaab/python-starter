@@ -1,0 +1,103 @@
+{% if include_example_code -%}
+"""Example CLI commands demonstrating CLI patterns.
+
+Each command wires the service context and calls service functions.
+Commands handle I/O and presentation - service functions handle logic.
+"""
+
+import typer
+
+from {{ package_name }}.cli.main import get_context
+from {{ package_name }}.domain.exceptions import EntityNotFoundError, ValidationError
+from {{ package_name }}.services import example_service
+
+app = typer.Typer()
+
+
+@app.command()
+def create(
+    name: str = typer.Argument(..., help="Entity name"),
+    value: int = typer.Argument(..., help="Entity value (non-negative)"),
+) -> None:
+    """Create a new example entity.
+
+    Example:
+        {{ cli_command }} example create "My Entity" 100
+    """
+    ctx = get_context()
+
+    try:
+        entity = example_service.create_example(ctx, name=name, value=value)
+        typer.echo(f"Created entity: {entity.id}")
+        typer.echo(f"  Name: {entity.name.text}")
+        typer.echo(f"  Value: {entity.value.amount}")
+    except ValidationError as e:
+        typer.echo(f"Validation error: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def get(
+    entity_id: str = typer.Argument(..., help="Entity ID"),
+) -> None:
+    """Get an example entity by ID.
+
+    Example:
+        {{ cli_command }} example get <entity-id>
+    """
+    ctx = get_context()
+
+    try:
+        entity = example_service.get_example(ctx, entity_id=entity_id)
+        typer.echo(f"Entity: {entity.id}")
+        typer.echo(f"  Name: {entity.name.text}")
+        typer.echo(f"  Value: {entity.value.amount}")
+    except EntityNotFoundError as e:
+        typer.echo(f"Error: {e}", err=True)
+        raise typer.Exit(code=1)
+
+
+@app.command(name="list")
+def list_entities() -> None:
+    """List all example entities.
+
+    Example:
+        {{ cli_command }} example list
+    """
+    ctx = get_context()
+
+    entities = example_service.list_examples(ctx)
+
+    if not entities:
+        typer.echo("No entities found.")
+        return
+
+    typer.echo(f"Found {len(entities)} entities:")
+    for entity in entities:
+        typer.echo(f"  - {entity.id}: {entity.name.text} (value: {entity.value.amount})")
+{% else -%}
+"""CLI commands.
+
+Add your CLI commands here. Each command should:
+1. Get the service context
+2. Call service functions
+3. Handle presentation/output
+
+Example:
+    import typer
+    from {{ package_name }}.cli.main import get_context
+    from {{ package_name }}.services import user_service
+
+    app = typer.Typer()
+
+    @app.command()
+    def create_user(
+        email: str = typer.Argument(...),
+        name: str = typer.Argument(...),
+    ) -> None:
+        \"\"\"Create a new user.\"\"\"
+        ctx = get_context()
+        user = user_service.create_user(ctx, email=email, name=name)
+        typer.echo(f"Created user: {user.id}")
+"""
+{% endif -%}

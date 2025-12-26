@@ -1,6 +1,6 @@
-# Python Starter Template
+# {{ project_name }}
 
-A modern, domain-agnostic Python starter template demonstrating clean architecture patterns with a functional service layer.
+{{ project_description }}
 
 ## What's Inside
 
@@ -33,7 +33,7 @@ cd python-starter
 uv sync
 
 # Run the example CLI
-uv run starter-cli --help
+uv run {{ cli_command }} --help
 ```
 
 ### Running Tests
@@ -69,8 +69,8 @@ For comprehensive documentation, see [docs/README.md](docs/README.md).
 ## Project Structure
 
 ```
-python-starter/
-├── src/starter/           # Source code
+{{ package_name }}/
+├── src/{{ package_name }}/    # Source code
 │   ├── domain/            # Domain entities and value objects
 │   ├── services/          # Service functions and context
 │   ├── protocols/         # Protocol interface definitions
@@ -135,11 +135,11 @@ Benefits:
 
 ### Adding a New Feature
 
-1. Define domain entities in `src/starter/domain/`
-2. Create protocol interfaces in `src/starter/protocols/`
-3. Implement service functions in `src/starter/services/`
-4. Create adapters in `src/starter/adapters/`
-5. Add CLI commands in `src/starter/cli/commands/`
+1. Define domain entities in `src/{{ package_name }}/domain/`
+2. Create protocol interfaces in `src/{{ package_name }}/protocols/`
+3. Implement service functions in `src/{{ package_name }}/services/`
+4. Create adapters in `src/{{ package_name }}/adapters/`
+5. Add CLI commands in `src/{{ package_name }}/cli/commands/`
 6. Write tests in `tests/`
 
 See [docs/guides/adding-features.md](docs/guides/adding-features.md) for detailed instructions.
@@ -157,7 +157,7 @@ uv run pytest --watch
 uv run ruff format . && uv run ruff check .
 
 # Run the CLI
-uv run starter-cli <command>
+uv run {{ cli_command }} <command>
 ```
 
 ## Why This Template?

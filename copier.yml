@@ -28,7 +28,13 @@ _exclude:
   - dist
   - build
   - .DS_Store
-  - docs/copier  # Template documentation not for generated projects
+  # Template documentation stays in template, not generated in projects
+  - docs/copier
+  - docs/architecture
+  - docs/decisions
+  - docs/guides
+  - docs/reference
+  - knowledge-base.yaml  # Template KB config, not for generated projects
   - "{% if not include_github_actions %}.github{% endif %}"
   - "{% if not include_dev_scripts %}scripts{% endif %}"
 
@@ -42,6 +48,8 @@ _skip_if_exists:
   - tests/unit/*.py
   - tests/integration/*.py
   - README.md  # Users will customize
+  - docs/agents.md  # Project-specific agent entrypoint
+  - knowledge-base.yaml  # Project-specific KB config
 
 # Template questions (user prompts)
 
@@ -131,7 +139,7 @@ module_path:
 
 current_year:
   type: str
-  default: "{% now 'utc', '%Y' %}"
+  default: "2025"
   when: false
 
 # Post-generation tasks

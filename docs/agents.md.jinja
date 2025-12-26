@@ -1,0 +1,182 @@
+---
+title: {{ project_name }} - Agent Entrypoint
+status: working
+---
+
+# Agent Entrypoint - {{ project_name }}
+
+You are working on **{{ project_name }}**: {{ project_description }}
+
+## Before Making Changes
+
+1. **Read project configuration**: [../knowledge-base.yaml](../knowledge-base.yaml)
+2. **Check specifications**: Review project specs repository (if it exists in imports)
+3. **Follow meta-KB policies**: [../meta-knowledge-base/docs/meta.md](../meta-knowledge-base/docs/meta.md)
+4. **Understand template patterns**: [../python-starter/docs/agents.md](../python-starter/docs/agents.md)
+
+## Architecture & Patterns
+
+This project uses the **Python Starter Template** architecture:
+
+### Functional Service Layer
+
+Services are **pure functions** (not classes) that accept a `ServiceContext`:
+
+```python
+def my_service(ctx: ServiceContext, param: str) -> Result:
+    """Pure function - testable, composable, explicit."""
+    # Access dependencies through context
+    entity = ctx.repository.get(param)
+    ctx.logger.info(f"Processing {entity}")
+    return process(entity)
+```
+
+**Learn more**: [Functional Services](../python-starter/docs/architecture/functional-services.md)
+
+### Protocol-Based Dependency Injection
+
+Use `typing.Protocol` for structural interfaces:
+
+```python
+class Repository(Protocol, Generic[T]):
+    def save(self, entity: T) -> None: ...
+    def get(self, entity_id: str) -> Optional[T]: ...
+```
+
+**Learn more**: [Protocol-based DI](../python-starter/docs/architecture/dependency-injection.md)
+
+### Context Objects
+
+Dependencies injected via immutable dataclass:
+
+```python
+@dataclass(frozen=True)
+class ServiceContext:
+    repository: Repository[Entity]
+    config: Config
+    logger: Logger
+```
+
+**Learn more**: [Context Objects](../python-starter/docs/reference/context-objects.md)
+
+### Testing Strategy
+
+- **Unit tests**: Use fakes, not mocks
+- **Integration tests**: Test adapters with real implementations
+- **Fakes**: Store in `tests/fakes/`
+
+**Learn more**: [Testing Strategy](../python-starter/docs/architecture/testing-strategy.md)
+
+## Common Tasks
+
+### Adding a Service Function
+
+1. Define in `src/{{ package_name }}/services/<domain>_service.py`
+2. Accept `ServiceContext` as first parameter
+3. Add type hints for all parameters
+4. Write docstring (Args, Returns, Raises)
+5. Add unit test with fake context
+6. Wire to CLI if needed
+
+**Guide**: [Adding Features](../python-starter/docs/guides/adding-features.md)
+
+### Adding an Adapter
+
+1. Define protocol in `src/{{ package_name }}/protocols/<name>.py`
+2. Implement in `src/{{ package_name }}/adapters/<name>.py`
+3. Add to `ServiceContext` in `src/{{ package_name }}/services/context.py`
+4. Create fake in `tests/fakes/fake_<name>.py`
+5. Add integration test
+
+**Guide**: [Adding Features](../python-starter/docs/guides/adding-features.md)
+
+### Running Tests
+
+```bash
+# All tests with coverage
+uv run pytest
+
+# Specific file
+uv run pytest tests/unit/test_services.py
+
+# Verbose
+uv run pytest -v
+```
+
+### Linting and Formatting
+
+```bash
+# Check code
+uv run ruff check .
+
+# Format code
+uv run ruff format .
+```
+
+## Workflow: Plan → Patch → Verify
+
+Follow the [Agent Workflow](../meta-knowledge-base/playbooks/agent-workflow.md):
+
+1. **Plan**: State intent, identify files to modify, check uncertainties
+2. **Patch**: Make minimal changes that achieve the goal
+3. **Verify**: Run tests/checks, specify what human should verify
+
+## File Organization
+
+```
+src/{{ package_name }}/
+├── domain/          # Pure domain logic (entities, value objects)
+├── services/        # Service functions (business logic)
+├── adapters/        # External system implementations
+├── protocols/       # Protocol interface definitions
+└── cli/             # CLI commands and wiring
+```
+
+**Reference**: [Project Structure](../python-starter/docs/reference/project-structure.md)
+
+## Authority and Sources
+
+Per [../knowledge-base.yaml](../knowledge-base.yaml):
+
+**Canonical sources** (source of truth):
+- `src/` - Source code is authoritative
+- `pyproject.toml` - Configuration
+- `tests/` - Tests document behavior
+
+**Interpretive sources** (explain canonical):
+- `docs/` - Documentation
+- `../python-starter/docs/` - Template patterns
+
+When code and docs conflict, **code is correct**. Update documentation.
+
+## Documentation Conventions
+
+From the template:
+- **Frontmatter**: YAML frontmatter required (title, status)
+- **Linking**: Use relative Markdown links `[text](path)`
+- **Code references**: Link with line numbers `src/file.py:123`
+- **Lifecycle**: Use statuses: draft, working, stable, deprecated
+
+## Project-Specific Notes
+
+- **Implementation notes**: Store time-bounded notes in [../notes/](../notes/)
+- **Code structure**: Document as it evolves
+- **Domain models**: Document project-specific entities and services
+
+## Template Resources
+
+**All template documentation is available** in `../python-starter/docs/`:
+
+- [Architecture](../python-starter/docs/architecture/) - Detailed patterns
+- [Decisions](../python-starter/docs/decisions/) - Why these patterns?
+- [Guides](../python-starter/docs/guides/) - How-to guides
+- [Reference](../python-starter/docs/reference/) - Technical reference
+
+**Agent reference**: [../python-starter/docs/agents.md](../python-starter/docs/agents.md)
+
+## Sources
+
+- [Project KB](../knowledge-base.yaml) - Project configuration
+- [Template KB](../python-starter/knowledge-base.yaml) - Template configuration
+- [Template Docs](../python-starter/docs/) - Complete template documentation
+- [Meta KB](../meta-knowledge-base/docs/meta.md) - KB methodology

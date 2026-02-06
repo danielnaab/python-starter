@@ -6,10 +6,10 @@ Builds production context and registers command groups.
 import typer
 
 {% if include_example_code -%}
-from {{ package_name }}.adapters.repository import InMemoryRepository
-from {{ package_name }}.domain.entities import Entity
-from {{ package_name }}.services.context import ServiceContext
+from {{ package_name }}.adapters.in_memory_repository import InMemoryRepository
 from {{ package_name }}.cli.commands import example
+from {{ package_name }}.domain.entity import Entity
+from {{ package_name }}.services.context import ServiceContext
 
 app = typer.Typer(
     name="{{ cli_command }}",
@@ -70,10 +70,10 @@ def get_context() -> ServiceContext:
     Create ServiceContext with real adapters here.
 
     Example:
-        from {{ package_name }}.adapters.repository import PostgresRepository
+        from your_app.adapters.postgres_repository import PostgresRepository
 
         return ServiceContext(
-            user_repository=PostgresRepository(
+            repository=PostgresRepository(
                 connection_string=os.getenv("DATABASE_URL")
             )
         )

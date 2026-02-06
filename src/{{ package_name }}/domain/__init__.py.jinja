@@ -1,21 +1,23 @@
-"""Domain layer - business entities and value objects.
+"""Domain layer — business entities, value objects, errors, and ports.
 
 Contains core domain models with business logic.
+Ports (protocols) live here because the domain defines what it needs from the outside world.
 No dependencies on adapters or infrastructure.
 """
 
 {% if include_example_code -%}
-from {{ package_name }}.domain.entities import Entity
-from {{ package_name }}.domain.exceptions import DomainError, EntityNotFoundError, ValidationError
-from {{ package_name }}.domain.value_objects import EntityName, EntityValue
+from {{ package_name }}.domain.entity import Entity, EntityName, EntityValue
+from {{ package_name }}.domain.errors import DomainError, EntityNotFoundError, ValidationError
+from {{ package_name }}.domain.repository import Repository
 
 __all__ = [
     "Entity",
+    "EntityName",
+    "EntityValue",
     "DomainError",
     "ValidationError",
     "EntityNotFoundError",
-    "EntityName",
-    "EntityValue",
+    "Repository",
 ]
 {% else -%}
 __all__: list[str] = []

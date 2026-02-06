@@ -24,7 +24,7 @@ def create_example(ctx: ServiceContext, name: str, value: int) -> Entity:
 
 ## Adding a Protocol + Adapter
 
-1. Define protocol in `src/<pkg>/protocols/<name>.py`
+1. Define protocol in `src/<pkg>/domain/<name>.py` (ports belong to domain)
 2. Implement adapter in `src/<pkg>/adapters/<name>.py`
 3. Add Protocol-typed field to `ServiceContext`
 4. Create fake in `tests/fakes/fake_<name>.py`

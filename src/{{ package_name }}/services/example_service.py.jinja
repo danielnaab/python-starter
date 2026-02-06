@@ -5,9 +5,8 @@ Service functions are pure functions taking ServiceContext as first parameter.
 Replace or customize these for your domain.
 """
 
-from {{ package_name }}.domain.entities import Entity
-from {{ package_name }}.domain.exceptions import EntityNotFoundError
-from {{ package_name }}.domain.value_objects import EntityName, EntityValue
+from {{ package_name }}.domain.entity import Entity, EntityName, EntityValue
+from {{ package_name }}.domain.errors import EntityNotFoundError
 from {{ package_name }}.services.context import ServiceContext
 
 
@@ -105,7 +104,7 @@ Define your service functions here. Each function should:
 
 Example:
     from {{ package_name }}.services.context import ServiceContext
-    from {{ package_name }}.domain.entities import User
+    from {{ package_name }}.domain.entity import User
 
     def create_user(
         ctx: ServiceContext,

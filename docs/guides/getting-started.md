@@ -27,14 +27,13 @@ Copier will prompt for: project name, package name, author, Python version, and 
 ```
 my-project/
 ├── src/<package_name>/
-│   ├── domain/          # Entities, value objects, exceptions
-│   ├── protocols/       # typing.Protocol interfaces
+│   ├── domain/          # Entity, value objects, errors, repository port
 │   ├── services/        # Pure functions + ServiceContext
-│   ├── adapters/        # Protocol implementations
+│   ├── adapters/        # Port implementations (InMemoryRepository)
 │   └── cli/             # Typer CLI commands
 ├── tests/
 │   ├── fakes/           # Fake implementations for testing
-│   ├── unit/            # Unit tests (services, domain)
+│   ├── unit/            # Unit tests (entity, services)
 │   └── integration/     # Integration tests (adapters)
 └── pyproject.toml       # All configuration
 ```

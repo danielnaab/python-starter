@@ -22,7 +22,7 @@ class FakeRepository(Generic[T]):
     - Clear and maintainable
 
     Example:
-        >>> from {{ package_name }}.domain.entities import Entity
+        >>> from {{ package_name }}.domain.entity import Entity
         >>> repo = FakeRepository[Entity]()
         >>> entity = Entity(name=EntityName("test"), value=EntityValue(100))
         >>> repo.save(entity)

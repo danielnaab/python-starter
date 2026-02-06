@@ -1,5 +1,5 @@
 {% if include_example_code -%}
-"""Domain exceptions - business rule violations."""
+"""Domain errors — business rule violations."""
 
 
 class DomainError(Exception):
@@ -36,7 +36,7 @@ class EntityNotFoundError(DomainError):
         self.entity_id = entity_id
         self.entity_type = entity_type
 {% else -%}
-"""Domain exceptions - business rule violations.
+"""Domain errors — business rule violations.
 
 Add your domain-specific exceptions here.
 """

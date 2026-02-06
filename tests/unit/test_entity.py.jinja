@@ -1,14 +1,10 @@
 {% if include_example_code -%}
-"""Unit tests for domain layer.
-
-Tests for entities, value objects, and business logic.
-"""
+"""Unit tests for Entity, EntityName, and EntityValue."""
 
 import pytest
 
-from {{ package_name }}.domain.entities import Entity
-from {{ package_name }}.domain.exceptions import ValidationError
-from {{ package_name }}.domain.value_objects import EntityName, EntityValue
+from {{ package_name }}.domain.entity import Entity, EntityName, EntityValue
+from {{ package_name }}.domain.errors import ValidationError
 
 
 class TestEntityName:
@@ -179,13 +175,13 @@ class TestEntity:
         assert "Test" in repr_str
         assert "100" in repr_str
 {% else -%}
-"""Unit tests for domain layer.
+"""Unit tests for domain entities.
 
 Add tests for your domain entities and value objects.
 
 Example:
-    from {{ package_name }}.domain.entities import User
-    from {{ package_name }}.domain.exceptions import ValidationError
+    from {{ package_name }}.domain.entity import User
+    from {{ package_name }}.domain.errors import ValidationError
 
     def test_create_user():
         user = User(email="test@example.com", name="Test User")

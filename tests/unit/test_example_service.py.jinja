@@ -1,12 +1,9 @@
 {% if include_example_code -%}
-"""Unit tests for service layer.
-
-Tests for service functions using fake dependencies.
-"""
+"""Unit tests for example service functions."""
 
 import pytest
 
-from {{ package_name }}.domain.exceptions import EntityNotFoundError, ValidationError
+from {{ package_name }}.domain.errors import EntityNotFoundError, ValidationError
 from {{ package_name }}.services import example_service
 from {{ package_name }}.services.context import ServiceContext
 from tests.fakes.fake_repository import FakeRepository

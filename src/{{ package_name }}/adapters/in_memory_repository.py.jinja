@@ -1,5 +1,5 @@
 {% if include_example_code -%}
-"""In-memory repository implementation.
+"""In-memory repository — dict-backed storage for development and testing.
 
 Simple in-memory storage using a dictionary.
 Useful for development, testing, and prototyping.
@@ -24,7 +24,7 @@ class InMemoryRepository(Generic[T]):
         Use for development/testing only.
 
     Example:
-        >>> from {{ package_name }}.domain.entities import Entity
+        >>> from {{ package_name }}.domain.entity import Entity
         >>> repo = InMemoryRepository[Entity]()
         >>> entity = Entity(name=EntityName("test"), value=EntityValue(100))
         >>> repo.save(entity)
@@ -92,7 +92,7 @@ class InMemoryRepository(Generic[T]):
 """Repository implementations.
 
 Implement your repository adapters here. They should satisfy the Repository
-protocol from the protocols layer.
+protocol from the domain layer.
 
 Example:
     from typing import Optional, Generic, TypeVar

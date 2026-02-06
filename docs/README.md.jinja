@@ -19,10 +19,9 @@ uv run pytest                        # Run tests
 
 ```
 src/{{ package_name }}/
-├── domain/          # Entities, value objects, exceptions
-├── protocols/       # typing.Protocol interfaces
+├── domain/          # Entity, value objects, errors, repository port
 ├── services/        # Pure functions + ServiceContext
-├── adapters/        # Protocol implementations
+├── adapters/        # Port implementations (InMemoryRepository)
 └── cli/             # Typer CLI commands
 ```
 

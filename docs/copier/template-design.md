@@ -33,7 +33,7 @@ This repository is a [Copier](https://copier.readthedocs.io/) template. Users ru
 ## What Stays Fixed
 
 - Architecture pattern (functional services, protocols, context objects)
-- Directory structure (`domain/`, `protocols/`, `services/`, `adapters/`, `cli/`)
+- Directory structure (`domain/`, `services/`, `adapters/`, `cli/`)
 - Tooling choices (uv, ruff, pytest, Typer)
 - Testing strategy (fakes over mocks)
 
@@ -60,7 +60,7 @@ Generated projects can pull template updates:
 copier update
 ```
 
-Protected files (`_skip_if_exists`): `.gitignore`, `README.md`
+Protected files (`_skip_if_exists`): domain/entity.py, example_service.py, in_memory_repository.py, CLI commands, unit/integration tests, README.md, docs/agents.md, knowledge-base.yaml
 
 ## Sources
 

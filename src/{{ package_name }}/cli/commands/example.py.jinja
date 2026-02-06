@@ -8,7 +8,7 @@ Commands handle I/O and presentation - service functions handle logic.
 import typer
 
 from {{ package_name }}.cli.main import get_context
-from {{ package_name }}.domain.exceptions import EntityNotFoundError, ValidationError
+from {{ package_name }}.domain.errors import EntityNotFoundError, ValidationError
 from {{ package_name }}.services import example_service
 
 app = typer.Typer()

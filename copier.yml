@@ -40,10 +40,9 @@ _exclude:
 
 # Files users will modify - protect during updates
 _skip_if_exists:
-  - src/{{ package_name }}/domain/entities.py
-  - src/{{ package_name }}/domain/value_objects.py
+  - src/{{ package_name }}/domain/entity.py
   - src/{{ package_name }}/services/example_service.py
-  - src/{{ package_name }}/adapters/repository.py
+  - src/{{ package_name }}/adapters/in_memory_repository.py
   - src/{{ package_name }}/cli/commands/example.py
   - tests/unit/*.py
   - tests/integration/*.py

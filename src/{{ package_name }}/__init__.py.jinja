@@ -16,7 +16,7 @@ __version__ = "0.1.0"
 
 {% if include_example_code -%}
 # Public API exports
-from {{ package_name }}.domain.entities import Entity
+from {{ package_name }}.domain.entity import Entity
 from {{ package_name }}.services.context import ServiceContext
 from {{ package_name }}.services.example_service import (
     create_example,

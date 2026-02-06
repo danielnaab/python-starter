@@ -1,14 +1,10 @@
 {% if include_example_code -%}
-"""Integration tests for adapters.
-
-Tests using real adapter implementations (not fakes).
-"""
+"""Integration tests for InMemoryRepository."""
 
 import pytest
 
-from {{ package_name }}.adapters.repository import InMemoryRepository
-from {{ package_name }}.domain.entities import Entity
-from {{ package_name }}.domain.value_objects import EntityName, EntityValue
+from {{ package_name }}.adapters.in_memory_repository import InMemoryRepository
+from {{ package_name }}.domain.entity import Entity, EntityName, EntityValue
 
 
 class TestInMemoryRepository:
@@ -148,7 +144,7 @@ class TestInMemoryRepository:
 
         This test verifies structural typing works correctly.
         """
-        from {{ package_name }}.protocols.repository import Repository
+        from {{ package_name }}.domain.repository import Repository
 
         # Should be assignable to Protocol type
         repo: Repository[Entity] = repository
@@ -168,8 +164,8 @@ class TestInMemoryRepository:
 Add integration tests using real adapter implementations.
 
 Example:
-    from {{ package_name }}.adapters.repository import PostgresRepository
-    from {{ package_name }}.domain.entities import User
+    from {{ package_name }}.adapters.in_memory_repository import PostgresRepository
+    from {{ package_name }}.domain.entity import User
 
     def test_postgres_repository_save_and_get():
         repo = PostgresRepository(connection_string="postgresql://...")

@@ -29,10 +29,9 @@ Interfaces use `typing.Protocol` — no inheritance required. Tests use **fakes*
 
 ```
 src/{{ package_name }}/
-├── domain/          # Pure domain logic (entities, value objects)
+├── domain/          # Entity, value objects, errors, repository port
 ├── services/        # Service functions (business logic)
-├── adapters/        # External system implementations
-├── protocols/       # Protocol interface definitions
+├── adapters/        # Port implementations (InMemoryRepository)
 └── cli/             # CLI commands and wiring
 ```
 
@@ -40,7 +39,7 @@ src/{{ package_name }}/
 
 **Add service**: Define in `services/`, accept `ServiceContext` first, add unit test with fake context, wire to CLI if needed.
 
-**Add adapter**: Define protocol in `protocols/`, implement in `adapters/`, add to `ServiceContext`, create fake in `tests/fakes/`.
+**Add adapter**: Define protocol in `domain/`, implement in `adapters/`, add to `ServiceContext`, create fake in `tests/fakes/`.
 
 **Run tests**: `uv run pytest` | **Lint**: `uv run ruff check .` | **Format**: `uv run ruff format .`
 

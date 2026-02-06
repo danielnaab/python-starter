@@ -34,14 +34,14 @@ def create_example(ctx: ServiceContext, name: str, value: int) -> Entity:
 Key rules:
 - Services are **pure functions**, first param is `ServiceContext`
 - Interfaces use `typing.Protocol` — no inheritance required
+- Ports live in `domain/` (the domain defines what it needs)
 - Tests use **fakes** (not mocks), stored in `tests/fakes/`
 
 ## File Organization
 
 ```
 src/{{ package_name }}/
-├── domain/          # Entities, value objects, exceptions
-├── protocols/       # Repository[T] protocol (typing.Protocol)
+├── domain/          # Entity, value objects, errors, Repository[T] port
 ├── services/        # ServiceContext + pure service functions
 ├── adapters/        # InMemoryRepository[T]
 └── cli/             # Typer CLI (thin adapter over services)
@@ -51,7 +51,7 @@ src/{{ package_name }}/
 
 **Add service function**: Create in `services/`, accept `ServiceContext` as first param, add unit test with fake context.
 
-**Add protocol + adapter**: Define protocol in `protocols/`, implement in `adapters/`, add field to `ServiceContext`, create fake in `tests/fakes/`.
+**Add protocol + adapter**: Define protocol in `domain/`, implement in `adapters/`, add field to `ServiceContext`, create fake in `tests/fakes/`.
 
 **Run tests**: `uv run pytest` | **Lint**: `uv run ruff check .` | **Format**: `uv run ruff format .`
 
@@ -74,4 +74,4 @@ When code and docs conflict, **code is correct**.
 - [knowledge-base.yaml](knowledge-base.yaml) — KB configuration
 - [services/context.py.jinja](../src/%7B%7B%20package_name%20%7D%7D/services/context.py.jinja) — ServiceContext
 - [services/example_service.py.jinja](../src/%7B%7B%20package_name%20%7D%7D/services/example_service.py.jinja) — service functions
-- [protocols/repository.py.jinja](../src/%7B%7B%20package_name%20%7D%7D/protocols/repository.py.jinja) — Repository protocol
+- [domain/repository.py.jinja](../src/%7B%7B%20package_name%20%7D%7D/domain/repository.py.jinja) — Repository protocol

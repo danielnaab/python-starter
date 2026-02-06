@@ -11,14 +11,13 @@ Functional service layer with protocol-based dependency injection.
 ## Layers
 
 ```
-domain/        Pure business logic (entities, value objects, exceptions)
-protocols/     Interface definitions (typing.Protocol)
+domain/        Pure business logic (entity, value objects, errors, repository port)
 services/      Business operations (pure functions + ServiceContext)
-adapters/      Protocol implementations (InMemoryRepository)
+adapters/      Port implementations (InMemoryRepository)
 cli/           Typer CLI (thin adapter over services)
 ```
 
-Dependencies flow inward: CLI → Services → Protocols ← Adapters. Domain has no dependencies.
+Dependencies flow inward: CLI → Services → Domain ← Adapters. Domain has no dependencies.
 
 ## Functional Services
 
@@ -46,10 +45,10 @@ Source: [services/context.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/ser
 
 ## Protocol-Based DI
 
-Interfaces use `typing.Protocol` for structural typing (PEP 544):
+Interfaces use `typing.Protocol` for structural typing (PEP 544). Ports live in the domain layer because the domain defines what it needs from the outside world:
 
 ```python
-# protocols/repository.py.jinja
+# domain/repository.py.jinja
 class Repository(Protocol, Generic[T]):
     def save(self, entity: T) -> None: ...
     def get(self, entity_id: str) -> Optional[T]: ...
@@ -59,15 +58,16 @@ class Repository(Protocol, Generic[T]):
 
 Any class implementing these methods satisfies the protocol — no inheritance required.
 
-Source: [protocols/repository.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/protocols/repository.py.jinja)
+Source: [domain/repository.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/repository.py.jinja)
 
 ## Domain Model
 
 - **Entities**: Identity-based (compared by `id`), mutable, contain business logic
 - **Value objects**: Attribute-based (frozen dataclasses), immutable, self-validating
-- **Exceptions**: Domain-specific error hierarchy (`DomainError` → `ValidationError`, `EntityNotFoundError`)
+- **Errors**: Domain-specific error hierarchy (`DomainError` → `ValidationError`, `EntityNotFoundError`)
+- **Ports**: Protocol interfaces the domain requires from the outside world (`Repository[T]`)
 
-Source: [domain/entities.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/entities.py.jinja), [domain/value_objects.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/value_objects.py.jinja)
+Source: [domain/entity.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/entity.py.jinja), [domain/errors.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/errors.py.jinja)
 
 ## Testing Strategy
 
@@ -99,6 +99,6 @@ Source: [tests/fakes/fake_repository.py.jinja](../../tests/fakes/fake_repository
 ## Sources
 
 - [services/context.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/services/context.py.jinja) — ServiceContext definition
-- [protocols/repository.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/protocols/repository.py.jinja) — Repository protocol
+- [domain/repository.py.jinja](../../src/%7B%7B%20package_name%20%7D%7D/domain/repository.py.jinja) — Repository protocol
 - [PEP 544](https://peps.python.org/pep-0544/) — Protocols: Structural subtyping
 - [Architecture Patterns with Python](https://www.cosmicpython.com/book/) — Domain modeling patterns

@@ -1,7 +1,8 @@
 {% if include_example_code -%}
-"""Repository protocol - generic persistence interface.
+"""Repository protocol — generic persistence interface.
 
 Defines interface for entity storage using typing.Protocol for structural typing.
+Ports belong to the domain: the domain defines what it needs from the outside world.
 """
 
 from typing import Generic, Optional, Protocol, TypeVar
@@ -64,9 +65,10 @@ class Repository(Protocol, Generic[T]):
         """
         ...
 {% else -%}
-"""Repository protocol - generic persistence interface.
+"""Repository protocol — generic persistence interface.
 
 Define your repository protocols here using typing.Protocol for structural typing.
+Ports belong to the domain: the domain defines what it needs from the outside world.
 
 Example:
     from typing import Protocol, Generic, TypeVar, Optional

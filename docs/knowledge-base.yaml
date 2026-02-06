@@ -6,8 +6,10 @@ entrypoints:
   human: docs/README.md
   agent: docs/agents.md
 
-meta:
-  entrypoint: "../meta-knowledge-base/docs/meta.md"
+imports:
+  - path: .graft/meta-knowledge-base
+    relationship: foundational
+    sync_policy: "pin to graft.lock version; update via graft pull"
 
 paths:
   architecture: docs/architecture/

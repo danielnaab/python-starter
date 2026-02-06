@@ -1,0 +1,17 @@
+apiVersion: graft/v0
+dependencies:
+  knowledge-base-integrity:
+    source: https://github.com/danielnaab/knowledge-base-integrity.git
+    ref: main
+    commit: 1b2c8365e1ffac1d6e0f9dd45e55669655bf7baf
+    consumed_at: '2026-02-06T05:08:44.080251+00:00'
+  living-specifications:
+    source: https://github.com/danielnaab/living-specifications.git
+    ref: main
+    commit: 2171e414a012852e389a895f25f8869af7cd91b1
+    consumed_at: '2026-02-06T05:08:44.080251+00:00'
+  meta-knowledge-base:
+    source: https://github.com/danielnaab/meta-knowledge-base.git
+    ref: main
+    commit: dd6ac969a5eccfbec5d498d716764c8c9f2be056
+    consumed_at: '2026-02-06T05:08:44.080251+00:00'

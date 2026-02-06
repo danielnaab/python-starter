@@ -3,102 +3,49 @@ title: {{ project_name }} Documentation
 status: working
 ---
 
-# {{ project_name }} Documentation
+# {{ project_name }}
 
 {{ project_description }}
 
-## Architecture & Patterns
-
-This project uses the [Python Starter Template](../python-starter) patterns and conventions.
-
-**Core architectural patterns**:
-- [Functional Service Layer](../python-starter/docs/architecture/functional-services.md) - Services as pure functions
-- [Protocol-based DI](../python-starter/docs/architecture/dependency-injection.md) - Structural typing for flexibility
-- [Domain Modeling](../python-starter/docs/architecture/domain-model.md) - Entities and value objects
-- [Testing Strategy](../python-starter/docs/architecture/testing-strategy.md) - Unit tests with fakes, integration tests
-
-**Template documentation** (comprehensive guides and references):
-- [Architecture](../python-starter/docs/architecture/) - Detailed architectural documentation
-- [Decisions (ADRs)](../python-starter/docs/decisions/) - Architectural decision records
-- [Development Guides](../python-starter/docs/guides/) - How-to guides for common tasks
-- [Technical Reference](../python-starter/docs/reference/) - Reference documentation
-
 ## Quick Start
 
-1. **Install dependencies**:
-   ```bash
-   uv sync
-   ```
-
-2. **Run the CLI**:
-   ```bash
-   uv run {{ package_name }}-cli --help
-   ```
-
-3. **Run tests**:
-   ```bash
-   uv run pytest
-   ```
-
-See the [Getting Started Guide](../python-starter/docs/guides/getting-started.md) for more details.
+```bash
+uv sync                              # Install dependencies
+uv run {{ package_name }}-cli --help # CLI help
+uv run pytest                        # Run tests
+```
 
 ## Project Structure
 
-This project follows the standard Python Starter Template layout:
-
 ```
-{{ package_name }}/
-├── src/{{ package_name }}/     # Source code
-│   ├── domain/                 # Domain entities and value objects
-│   ├── services/               # Service functions with context
-│   ├── adapters/               # External system implementations
-│   ├── protocols/              # Interface definitions
-│   └── cli/                    # CLI commands
-├── tests/                      # Test suite
-│   ├── unit/                   # Unit tests
-│   ├── integration/            # Integration tests
-│   └── fakes/                  # Fake implementations for testing
-└── docs/                       # Project documentation
+src/{{ package_name }}/
+├── domain/          # Entities, value objects, exceptions
+├── protocols/       # typing.Protocol interfaces
+├── services/        # Pure functions + ServiceContext
+├── adapters/        # Protocol implementations
+└── cli/             # Typer CLI commands
 ```
 
-See [Project Structure Reference](../python-starter/docs/reference/project-structure.md) for complete details.
+## Architecture & Patterns
 
-## Development Workflow
+This project uses the [Python Starter Template](../python-starter) patterns:
 
-- **Adding features**: See [Adding Features Guide](../python-starter/docs/guides/adding-features.md)
-- **Writing tests**: See [Testing Guide](../python-starter/docs/guides/testing-guide.md)
-- **Development workflow**: See [Development Workflow](../python-starter/docs/guides/development-workflow.md)
-- **CLI usage**: See [CLI Usage Guide](../python-starter/docs/guides/cli-usage.md)
+- [Architecture](../python-starter/docs/architecture/architecture.md) — layers, functional services, protocol DI
+- [Decisions](../python-starter/docs/decisions/) — ADRs for tooling and pattern choices
+- [Getting Started](../python-starter/docs/guides/getting-started.md) | [Development Guide](../python-starter/docs/guides/development.md)
+- [Reference](../python-starter/docs/reference/project-reference.md) — structure, config, tooling
 
-## Project-Specific Documentation
+## Project-Specific
 
-- **Agent Entrypoint**: [agents.md](agents.md) - For AI agents working on this project
-- **Implementation Notes**: [../notes/](../notes/) - Time-bounded development notes
-- **Knowledge Base Config**: [../knowledge-base.yaml](../knowledge-base.yaml) - Project KB configuration
+- [Agent Entrypoint](agents.md) — for AI agents working on this project
+- [Knowledge Base](../knowledge-base.yaml) — project KB configuration
 
-## Tooling
+## Template
 
-This project uses:
-- **uv** - Fast Python package manager and environment management
-- **ruff** - Lightning-fast linter and formatter
-- **pytest** - Testing framework with coverage reporting
-- **typer** - Modern CLI framework
-
-See [Tooling Reference](../python-starter/docs/reference/tooling.md) for details.
-
-## Template Information
-
-- **Template**: Python Starter Template
-- **Template Version**: {{ _copier_conf.vcs_ref_hash }}
-- **Generated**: {{ _copier_conf.timestamp }}
-
-To update from the template:
-```bash
-copier update --trust
-```
+- **Version**: {{ _copier_conf.vcs_ref_hash }}
+- **Update**: `copier update --trust`
 
 ## Sources
 
 - [Template Documentation](../python-starter/docs/)
-- [Template Repository](../python-starter)
 - [Knowledge Base Config](../knowledge-base.yaml)
